@@ -29,9 +29,15 @@ export default class PhotoDetailPage {
   protected readonly src = computed(() => photoUrl(this.id(), 'full'));
   protected readonly failed = signal(false);
 
-  protected remove(): void {
-    this.favorites.remove(this.id());
+  /**
+   * Navigate first, then remove: removing first would flip `isFavorite()` and flash the
+   * "not found" state until the Favorites page has loaded.
+   */
+  protected async remove(): Promise<void> {
+    const id = this.id();
+    const navigated = await this.router.navigate(['/favorites']);
+    if (!navigated) return;
+    this.favorites.remove(id);
     this.snackBar.open('Removed from favorites', undefined, { duration: 2000 });
-    void this.router.navigate(['/favorites']);
   }
 }

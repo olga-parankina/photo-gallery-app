@@ -58,6 +58,23 @@ describe('PhotoDetailPage', () => {
     expect(await snackBar.getMessage()).toBe('Removed from favorites');
   });
 
+  it('leaves the page before removing, so "not found" never flashes after a successful remove', async () => {
+    const { harness, element } = await open('/photos/abc', ['abc']);
+    const store = TestBed.inject(FavoritesStore);
+    const router = TestBed.inject(Router);
+    const removeFromStore = store.remove.bind(store);
+    let urlWhenRemoved = '';
+    vi.spyOn(store, 'remove').mockImplementation((id) => {
+      urlWhenRemoved = router.url;
+      removeFromStore(id);
+    });
+
+    removeButton(element)!.click();
+    await harness.fixture.whenStable();
+
+    expect(urlWhenRemoved).toBe('/favorites');
+  });
+
   it('explains that an unknown or removed photo is not in favorites, with a way back', async () => {
     const { element } = await open('/photos/unknown', ['abc']);
 
