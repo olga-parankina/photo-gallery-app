@@ -19,5 +19,5 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
-      - run: npm test -- --watch=false
+      - run: npm test
       - run: npm run build
