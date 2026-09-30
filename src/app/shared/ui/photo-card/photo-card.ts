@@ -18,6 +18,8 @@ export class PhotoCard {
   readonly favorite = input(false);
 
   readonly selected = output<Photo>();
+  /** Click on the favorite heart: the user changed their mind. */
+  readonly unfavorite = output<Photo>();
 
   protected readonly src = computed(() => photoUrl(this.photo().id, 'thumb'));
   /** Set when the image fails to load; shows text instead of a fallback image (no onerror loop). */

@@ -42,7 +42,7 @@ describe('PhotosPage', () => {
   }
 
   const element = () => fixture.nativeElement as HTMLElement;
-  const cards = () => Array.from(element().querySelectorAll('app-photo-card button'));
+  const cards = () => Array.from(element().querySelectorAll('app-photo-card button.tile'));
   const spinnerShown = () => element().querySelector('mat-progress-spinner') !== null;
 
   beforeEach(() => {
@@ -147,6 +147,31 @@ describe('PhotosPage', () => {
 
     expect(snackBarOpen).toHaveBeenCalledTimes(1);
     expect(TestBed.inject(FavoritesStore).favorites()).toEqual(['a']);
+  });
+
+  it('removes a favorite from the stream via its heart and offers Undo', async () => {
+    sentinelAt(0);
+    await render();
+    sentinelAt(5000);
+    api.respond(['a', 'b']);
+    await fixture.whenStable();
+    const store = TestBed.inject(FavoritesStore);
+    (cards()[1] as HTMLButtonElement).click();
+    await fixture.whenStable();
+
+    element().querySelector<HTMLButtonElement>('button.badge')!.click();
+    await fixture.whenStable();
+
+    expect(store.favorites()).toEqual([]);
+    expect(element().querySelector('button.badge')).toBeNull();
+    const snackBar =
+      await TestbedHarnessEnvironment.documentRootLoader(fixture).getHarness(MatSnackBarHarness);
+    expect(await snackBar.getMessage()).toBe('Removed from favorites');
+    expect(await snackBar.getActionDescription()).toBe('Undo');
+
+    await snackBar.dismissWithAction();
+
+    expect(store.favorites()).toEqual(['b']);
   });
 
   it('after a failed request stops the loader, pauses the feed and offers a retry', async () => {

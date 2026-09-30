@@ -1,7 +1,7 @@
 # Photo Gallery App
 
 An Angular app with an endless stream of random photos and a personal favorites collection.
-Click a photo in the stream to save it. Open **Favorites** to see everything you saved. Click a
+Click a photo in the stream to save it; changed your mind? Click its heart (with Undo). Open **Favorites** to see everything you saved. Click a
 favorite to view it large and remove it. Favorites are kept in `localStorage`, so they survive a
 page refresh. There is no backend.
 
@@ -39,7 +39,7 @@ CI (GitHub Actions) runs format check, lint, tests and build on every push and p
 | `/photos/:id`: one large photo + "Remove from favorites", same header | `features/photo-detail/`                                                     | `photo-detail.page.spec.ts`                                |
 | Angular Router, lazy routes                                           | `app.routes.ts`                                                              | `app.routes.spec.ts`, `app.spec.ts`                        |
 | Latest Angular, SCSS, Angular Material                                | Angular 22, `styles.scss` (Material M3 theme)                                | —                                                          |
-| Unit tests                                                            | 62 tests across 14 spec files                                                | `npm test`                                                 |
+| Unit tests                                                            | 69 tests across 14 spec files                                                | `npm test`                                                 |
 
 ## Architecture
 
@@ -100,6 +100,7 @@ Each decision records context, alternatives, trade-offs and when to revisit it:
 - Corrupt, missing or wrongly shaped `localStorage` data falls back to an empty list; a full
   storage does not crash the app.
 - Duplicate favorites are ignored; an empty Favorites page explains what to do.
+- Changed your mind: the heart on a favorite tile removes it, with Undo in the snackbar.
 - Unknown or already removed ids on `/photos/:id` show a clear "not in your favorites" state.
 - Direct navigation and refresh work on every route; unknown URLs redirect to `/`.
 
@@ -126,10 +127,12 @@ Each decision records context, alternatives, trade-offs and when to revisit it:
 
 ## What I would do with more time
 
-- Undo in the "Removed from favorites" snackbar.
+- Undo for "Remove from favorites" on the detail page too (the stream already has it).
 - Cross-tab sync through the `storage` event.
 - A Playwright smoke test for the main flow, and a deployed demo on GitHub Pages.
 - Dark theme (the tokens are already in one place).
+- A shimmer skeleton on tiles while their image loads (the loader for the batch itself stays,
+  as the task asks for a loader icon).
 - Photo metadata (author, links) through picsum's list API, without changing the pages.
 
 ## How I worked

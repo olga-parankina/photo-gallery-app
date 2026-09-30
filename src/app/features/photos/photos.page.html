@@ -6,6 +6,7 @@
   actionLabel="Add photo to favorites"
   favoriteActionLabel="Photo is already in favorites"
   (photoClick)="addToFavorites($event)"
+  (unfavoriteClick)="removeFromFavorites($event)"
 />
 
 @if (failed()) {

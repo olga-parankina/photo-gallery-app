@@ -1,5 +1,8 @@
 .card {
   position: relative;
+}
+
+.tile {
   display: block;
   width: 100%;
   aspect-ratio: 2 / 3;
@@ -9,7 +12,10 @@
   overflow: hidden;
   background: var(--mat-sys-surface-container);
   cursor: pointer;
+}
 
+.tile,
+.badge {
   &:focus-visible {
     outline: 3px solid var(--mat-sys-primary);
     outline-offset: 2px;
@@ -35,9 +41,23 @@ img {
   position: absolute;
   top: 8px;
   right: 8px;
-  padding: 4px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
   background: var(--mat-sys-surface);
   color: var(--mat-sys-error);
-  font-variation-settings: 'FILL' 1;
+  cursor: pointer;
+
+  mat-icon {
+    font-variation-settings: 'FILL' 1;
+  }
+
+  // Hover hints that the heart is clickable and removes the favorite.
+  &:hover mat-icon {
+    font-variation-settings: 'FILL' 0;
+  }
 }

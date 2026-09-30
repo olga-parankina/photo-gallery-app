@@ -14,7 +14,9 @@ describe('PhotoGrid', () => {
   }
 
   const buttons = () =>
-    Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('button'));
+    Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>('button.tile'),
+    );
 
   it('renders one card per photo', async () => {
     await render({ photos, actionLabel: 'Open photo' });
@@ -32,6 +34,18 @@ describe('PhotoGrid', () => {
     expect(clicked).toEqual([{ id: 'b' }]);
   });
 
+  it('re-emits a click on the favorite heart as unfavoriteClick', async () => {
+    await render({ photos, actionLabel: 'Add photo to favorites', favoriteIds: ['c'] });
+    const unfavorited: Photo[] = [];
+    fixture.componentInstance.unfavoriteClick.subscribe((p: Photo) => unfavorited.push(p));
+
+    (fixture.nativeElement as HTMLElement)
+      .querySelector<HTMLButtonElement>('button.badge')!
+      .click();
+
+    expect(unfavorited).toEqual([{ id: 'c' }]);
+  });
+
   it('marks favorite photos and gives them their own label', async () => {
     await render({
       photos,
@@ -45,6 +59,13 @@ describe('PhotoGrid', () => {
       'Photo is already in favorites',
       'Add photo to favorites',
     ]);
-    expect(buttons().map((b) => b.querySelector('.badge') !== null)).toEqual([false, true, false]);
+    const cards = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll('app-photo-card'),
+    );
+    expect(cards.map((c) => c.querySelector('button.badge') !== null)).toEqual([
+      false,
+      true,
+      false,
+    ]);
   });
 });

@@ -18,4 +18,5 @@ export class PhotoGrid {
   readonly favoriteActionLabel = input<string>();
 
   readonly photoClick = output<Photo>();
+  readonly unfavoriteClick = output<Photo>();
 }

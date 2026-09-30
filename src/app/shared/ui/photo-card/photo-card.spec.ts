@@ -57,6 +57,28 @@ describe('PhotoCard', () => {
     expect(element.querySelector('.badge')).not.toBeNull();
   });
 
+  it('makes the favorite heart its own button that emits unfavorite, not selected', async () => {
+    await render({ favorite: true });
+    const selected: Photo[] = [];
+    const unfavorited: Photo[] = [];
+    fixture.componentInstance.selected.subscribe((p) => selected.push(p));
+    fixture.componentInstance.unfavorite.subscribe((p) => unfavorited.push(p));
+
+    const heart = element.querySelector<HTMLButtonElement>('button.badge')!;
+    heart.click();
+
+    expect(heart.getAttribute('aria-label')).toBe('Remove from favorites');
+    expect(heart.type).toBe('button');
+    expect(unfavorited).toEqual([photo]);
+    expect(selected).toEqual([]);
+  });
+
+  it('does not nest the heart button inside the tile button (valid HTML)', async () => {
+    await render({ favorite: true });
+
+    expect(element.querySelector('button button')).toBeNull();
+  });
+
   it('replaces a broken image with a text placeholder (no fallback image loop)', async () => {
     await render();
 

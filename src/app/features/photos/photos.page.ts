@@ -54,4 +54,13 @@ export default class PhotosPage {
     this.favorites.add(photo.id);
     this.snackBar.open('Added to favorites', undefined, { duration: 2000 });
   }
+
+  /** Lets the user change their mind right in the stream; Undo puts the photo back. */
+  protected removeFromFavorites(photo: Photo): void {
+    this.favorites.remove(photo.id);
+    this.snackBar
+      .open('Removed from favorites', 'Undo', { duration: 4000 })
+      .onAction()
+      .subscribe(() => this.favorites.add(photo.id));
+  }
 }
