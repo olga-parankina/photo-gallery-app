@@ -34,7 +34,8 @@ export class InfiniteScroll {
     inject(DestroyRef).onDestroy(() => observer.disconnect());
 
     // The observer only reports changes. If a batch did not push the sentinel off screen
-    // (tall viewport, zoomed out), nothing changes, so re-check after every render.
+    // (tall viewport, zoomed out), nothing changes. This effect reads `paused()`, so it re-runs
+    // after the render that follows every flip to unpaused (i.e. after each batch) and re-checks.
     afterRenderEffect({
       read: () => {
         if (!this.paused() && this.isNearViewport()) this.scrolled.emit();

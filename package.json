@@ -1,11 +1,10 @@
 {
-  "name": "photo-library",
+  "name": "photo-gallery-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "format": "prettier --write .",
@@ -38,5 +37,8 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "8.69.0",
     "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": "^22.22.3 || >=24.15.0"
   }
 }

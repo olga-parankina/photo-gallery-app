@@ -42,7 +42,7 @@ describe('Header', () => {
   it.each([
     ['/', 'Photos'],
     ['/favorites', 'Favorites'],
-    // The detail page is always about a favorite photo (see journal decision).
+    // The detail page is always about a favorite photo (see ADR-005).
     ['/photos/abc', 'Favorites'],
   ])('on %s highlights only %s', async (url, expected) => {
     const { loader } = await setup(url);

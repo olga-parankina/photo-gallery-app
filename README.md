@@ -8,7 +8,7 @@ page refresh. There is no backend.
 ## Quick start
 
 Prerequisites: **Node.js ≥ 24.15** (or ≥ 22.22.3) and npm. Angular CLI 22 refuses older Node
-versions.
+versions, and `engine-strict` in `.npmrc` makes `npm install` stop early on an older Node.
 
 ```bash
 npm install
@@ -121,6 +121,8 @@ Each decision records context, alternatives, trade-offs and when to revisit it:
   a literal full-screen photo.
 - The DOM grows as you scroll (no virtualization); fine for hundreds of photos.
 - Favorites do not sync between open tabs until a reload.
+- Ids come from `crypto.randomUUID()`, which browsers expose only in secure contexts: open the app
+  on `localhost` or over HTTPS (not `http://<LAN-IP>:4200` from a phone).
 
 ## What I would do with more time
 
