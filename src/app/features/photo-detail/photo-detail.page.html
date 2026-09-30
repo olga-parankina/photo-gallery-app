@@ -1,0 +1,27 @@
+@if (isFavorite()) {
+  <h1 class="visually-hidden">Favorite photo</h1>
+
+  <figure class="photo">
+    @if (failed()) {
+      <p class="placeholder">Image unavailable</p>
+    } @else {
+      <img
+        [src]="src()"
+        alt="Favorite photo"
+        width="800"
+        height="1200"
+        (error)="failed.set(true)"
+      />
+    }
+  </figure>
+
+  <div class="actions">
+    <button matButton="filled" type="button" (click)="remove()">Remove from favorites</button>
+  </div>
+} @else {
+  <section class="missing">
+    <h1>Photo not found</h1>
+    <p>This photo is not in your favorites. It may have been removed.</p>
+    <a matButton="filled" routerLink="/favorites">Back to favorites</a>
+  </section>
+}

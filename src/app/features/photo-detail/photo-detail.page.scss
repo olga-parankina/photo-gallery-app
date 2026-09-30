@@ -1,0 +1,40 @@
+.photo {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+img,
+.placeholder {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  // Fit the viewport under the header, leaving room for the button (wireframe layout).
+  height: min(calc(100dvh - 200px), 1200px);
+  aspect-ratio: 2 / 3;
+  border-radius: var(--mat-sys-corner-large);
+  object-fit: cover;
+}
+
+.placeholder {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding-block: 16px;
+}
+
+.missing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-block: 48px;
+  text-align: center;
+}
