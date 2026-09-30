@@ -1,0 +1,12 @@
+<button type="button" class="card" [attr.aria-label]="label()" (click)="selected.emit(photo())">
+  @if (failed()) {
+    <span class="placeholder">Image unavailable</span>
+  } @else {
+    <img [src]="src()" alt="" width="200" height="300" loading="lazy" (error)="failed.set(true)" />
+  }
+  @if (favorite()) {
+    <mat-icon class="badge" fontSet="material-symbols-outlined" aria-hidden="true"
+      >favorite</mat-icon
+    >
+  }
+</button>

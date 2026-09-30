@@ -1,0 +1,13 @@
+<ul class="grid">
+  @for (photo of photos(); track photo.id) {
+    @let favorite = favoriteIds().includes(photo.id);
+    <li>
+      <app-photo-card
+        [photo]="photo"
+        [favorite]="favorite"
+        [label]="favorite ? (favoriteActionLabel() ?? actionLabel()) : actionLabel()"
+        (selected)="photoClick.emit($event)"
+      />
+    </li>
+  }
+</ul>
