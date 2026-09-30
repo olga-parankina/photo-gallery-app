@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarHarness } from '@angular/material/snack-bar/testing';
 import { Observable, Subject } from 'rxjs';
 
@@ -120,6 +121,32 @@ describe('PhotosPage', () => {
       await TestbedHarnessEnvironment.documentRootLoader(fixture).getHarness(MatSnackBarHarness);
     expect(await snackBar.getMessage()).toBe('Added to favorites');
     expect(cards()[1].getAttribute('aria-label')).toBe('Photo is already in favorites');
+  });
+
+  it('guards loadMore itself, independent of the sentinel pause (one request in flight)', async () => {
+    sentinelAt(5000);
+    await render();
+    const page = fixture.componentInstance;
+
+    page['loadMore']();
+    page['loadMore']();
+
+    expect(api.requests).toHaveLength(1);
+  });
+
+  it('does nothing when an already favorite photo is clicked again (no second snackbar)', async () => {
+    sentinelAt(0);
+    await render();
+    sentinelAt(5000);
+    api.respond(['a']);
+    await fixture.whenStable();
+    const snackBarOpen = vi.spyOn(TestBed.inject(MatSnackBar), 'open');
+
+    (cards()[0] as HTMLButtonElement).click();
+    (cards()[0] as HTMLButtonElement).click();
+
+    expect(snackBarOpen).toHaveBeenCalledTimes(1);
+    expect(TestBed.inject(FavoritesStore).favorites()).toEqual(['a']);
   });
 
   it('after a failed request stops the loader, pauses the feed and offers a retry', async () => {
