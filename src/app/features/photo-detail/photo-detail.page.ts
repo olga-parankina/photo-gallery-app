@@ -19,7 +19,7 @@ export default class PhotoDetailPage {
 
   readonly id = input.required<string>();
 
-  protected readonly isFavorite = computed(() => this.favorites.favorites().includes(this.id()));
+  protected readonly isFavorite = computed(() => this.favorites.isFavorite(this.id()));
   protected readonly src = computed(() => photoUrl(this.id(), 'full'));
   protected readonly failed = signal(false);
 

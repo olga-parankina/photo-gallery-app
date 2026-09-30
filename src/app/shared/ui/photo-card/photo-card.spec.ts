@@ -73,6 +73,26 @@ describe('PhotoCard', () => {
     expect(selected).toEqual([]);
   });
 
+  it('moves focus to the tile after the heart is used, so keyboard users keep their place', async () => {
+    await render({ favorite: true });
+    const heart = element.querySelector<HTMLButtonElement>('button.badge')!;
+    heart.focus();
+
+    heart.click();
+
+    expect(document.activeElement).toBe(element.querySelector('button.tile'));
+  });
+
+  it('marks the tile aria-disabled only while the photo is already a favorite', async () => {
+    await render();
+    expect(button().hasAttribute('aria-disabled')).toBe(false);
+
+    fixture.componentRef.setInput('favorite', true);
+    await fixture.whenStable();
+
+    expect(button().getAttribute('aria-disabled')).toBe('true');
+  });
+
   it('does not nest the heart button inside the tile button (valid HTML)', async () => {
     await render({ favorite: true });
 

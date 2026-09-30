@@ -1,9 +1,9 @@
 # Photo Gallery App
 
-An Angular app with an endless stream of random photos and a personal favorites collection.
-Click a photo in the stream to save it; changed your mind? Click its heart (with Undo). Open **Favorites** to see everything you saved. Click a
-favorite to view it large and remove it. Favorites are kept in `localStorage`, so they survive a
-page refresh. There is no backend.
+An Angular app with an endless stream of random photos and a personal favorites collection. Click a
+photo in the stream to save it; changed your mind? Click its heart (with Undo). Open **Favorites**
+to see everything you saved. Click a favorite to view it large and remove it. Favorites are kept in
+`localStorage`, so they survive a page refresh. There is no backend.
 
 ## Quick start
 
@@ -39,7 +39,7 @@ CI (GitHub Actions) runs format check, lint, tests and build on every push and p
 | `/photos/:id`: one large photo + "Remove from favorites", same header | `features/photo-detail/`                                                     | `photo-detail.page.spec.ts`                                |
 | Angular Router, lazy routes                                           | `app.routes.ts`                                                              | `app.routes.spec.ts`, `app.spec.ts`                        |
 | Latest Angular, SCSS, Angular Material                                | Angular 22, `styles.scss` (Material M3 theme)                                | —                                                          |
-| Unit tests                                                            | 69 tests across 14 spec files                                                | `npm test`                                                 |
+| Unit tests                                                            | 71 tests across 14 spec files                                                | `npm test`                                                 |
 
 ## Architecture
 
@@ -82,14 +82,18 @@ was replaced with a fresh Angular 22 workspace because the task asks for the lat
 - Corrupt, missing or wrongly shaped `localStorage` data falls back to an empty list; a full
   storage does not crash the app.
 - Duplicate favorites are ignored; an empty Favorites page explains what to do.
-- Changed your mind: the heart on a favorite tile removes it, with Undo in the snackbar.
+- Changed your mind: the heart on a favorite tile removes it, with Undo in the snackbar. Undo is
+  a shortcut, not the only way back: clicking the photo adds it again at any time, so the
+  snackbar's 4-second timeout never takes an action away.
 - Unknown or already removed ids on `/photos/:id` show a clear "not in your favorites" state.
 - Direct navigation and refresh work on every route; unknown URLs redirect to `/`.
 
 ## Accessibility and performance
 
-- Every tile is a `<button>` named by its action; keyboard works end to end, with a visible focus
-  ring.
+- Every tile is a `<button>` named by its action; a tile that is already a favorite is marked
+  `aria-disabled`. The heart is a separate button; after it is used, focus moves to its tile so
+  keyboard users keep their place. Keyboard works end to end, with a visible focus ring on light
+  and dark photos.
 - `aria-current="page"` on the active nav button, a persistent `role="status"` region for the
   loader, a heading and a document title on every page.
 - Text contrast ≥ 7.7:1 for every color pair (checked with the WCAG formula).
@@ -104,6 +108,8 @@ was replaced with a fresh Angular 22 workspace because the task asks for the lat
   a literal full-screen photo.
 - The DOM grows as you scroll (no virtualization); fine for hundreds of photos.
 - Favorites do not sync between open tabs until a reload.
+- Undo puts a photo back at the end of the favorites list, and a new removal replaces the previous
+  snackbar (only the latest removal can be undone there; clicking the photo still works).
 - Ids come from `crypto.randomUUID()`, which browsers expose only in secure contexts: open the app
   on `localhost` or over HTTPS (not `http://<LAN-IP>:4200` from a phone).
 
@@ -122,5 +128,6 @@ was replaced with a fresh Angular 22 workspace because the task asks for the lat
 Test-first for every service, the store, the directive and each page: write the test, watch it
 fail, then implement. Test and code are committed together, so history and CI never go red. Key
 tests were mutation-checked by breaking the code on purpose. Commits follow Conventional Commits.
-Format check, lint, tests and a production build ran before commits, and CI runs them on every push. Flows were also checked
-by hand in a browser: fresh storage, refresh on every route, 375 px width, keyboard only.
+Format check, lint, tests and a production build ran before commits, and CI runs them on every
+push. Flows were also checked by hand in a browser: fresh storage, refresh on every route, 375 px
+width, keyboard only.

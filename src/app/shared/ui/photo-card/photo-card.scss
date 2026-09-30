@@ -14,11 +14,17 @@
   cursor: pointer;
 }
 
+.tile[aria-disabled='true'] {
+  cursor: default;
+}
+
+// Dark ring plus a light gap, so focus is visible on both light and dark photos.
 .tile,
 .badge {
   &:focus-visible {
     outline: 3px solid var(--mat-sys-primary);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--mat-sys-surface);
   }
 }
 

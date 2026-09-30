@@ -1,6 +1,14 @@
-<!-- Two sibling buttons (a button inside a button is invalid HTML); the heart sits on top visually. -->
+<!-- Two sibling buttons (a button inside a button is invalid HTML); the heart sits on top visually.
+     After the heart is used it disappears, so focus moves to the tile instead of being lost. -->
 <div class="card">
-  <button type="button" class="tile" [attr.aria-label]="label()" (click)="selected.emit(photo())">
+  <button
+    #tile
+    type="button"
+    class="tile"
+    [attr.aria-label]="label()"
+    [attr.aria-disabled]="favorite() || null"
+    (click)="selected.emit(photo())"
+  >
     @if (failed()) {
       <span class="placeholder">Image unavailable</span>
     } @else {
@@ -19,7 +27,7 @@
       type="button"
       class="badge"
       aria-label="Remove from favorites"
-      (click)="unfavorite.emit(photo())"
+      (click)="unfavorite.emit(photo()); tile.focus()"
     >
       <mat-icon fontSet="material-symbols-outlined" aria-hidden="true">favorite</mat-icon>
     </button>
