@@ -2,25 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfiniteScroll } from './infinite-scroll.directive';
-
-/** Minimal stand-in for the browser API (jsdom has none); lets tests decide visibility. */
-class FakeIntersectionObserver {
-  static latest: FakeIntersectionObserver;
-  readonly disconnect = vi.fn();
-
-  constructor(private readonly callback: IntersectionObserverCallback) {
-    FakeIntersectionObserver.latest = this;
-  }
-
-  readonly observe = vi.fn();
-
-  report(isIntersecting: boolean): void {
-    this.callback(
-      [{ isIntersecting } as IntersectionObserverEntry],
-      this as unknown as IntersectionObserver,
-    );
-  }
-}
+import { FakeIntersectionObserver } from '../../../testing/fake-intersection-observer';
 
 @Component({
   imports: [InfiniteScroll],

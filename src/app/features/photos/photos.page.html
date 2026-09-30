@@ -1,0 +1,26 @@
+<h1 class="visually-hidden">Photos</h1>
+
+<app-photo-grid
+  [photos]="photos()"
+  [favoriteIds]="favoriteIds()"
+  actionLabel="Add photo to favorites"
+  favoriteActionLabel="Photo is already in favorites"
+  (photoClick)="addToFavorites($event)"
+/>
+
+@if (failed()) {
+  <p class="error">
+    Could not load photos.
+    <button matButton="outlined" type="button" (click)="loadMore()">Try again</button>
+  </p>
+}
+
+<app-loader [active]="loading()" />
+
+<!-- Paused while loading and after an error, so a failing API is not retried in a loop. -->
+<div
+  class="sentinel"
+  appInfiniteScroll
+  [paused]="loading() || failed()"
+  (scrolled)="loadMore()"
+></div>

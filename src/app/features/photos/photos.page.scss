@@ -1,0 +1,11 @@
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--mat-sys-error);
+}
+
+.sentinel {
+  height: 1px;
+}

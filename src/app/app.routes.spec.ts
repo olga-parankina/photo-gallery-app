@@ -1,15 +1,25 @@
 import { TestBed } from '@angular/core/testing';
+import { NEVER } from 'rxjs';
 import { Router, provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 
+import { FakeIntersectionObserver } from '../testing/fake-intersection-observer';
 import { routes } from './app.routes';
+import { PhotoApi } from './core/photos/photo-api';
 
 describe('app routes', () => {
   let harness: RouterTestingHarness;
 
+  beforeEach(() => vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver));
+  afterEach(() => vi.unstubAllGlobals());
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      providers: [provideRouter(routes, withComponentInputBinding())],
+      providers: [
+        provideRouter(routes, withComponentInputBinding()),
+        // Routing tests care about navigation, not photos: an API that never answers.
+        { provide: PhotoApi, useValue: { getPhotos: () => NEVER } },
+      ],
     });
     harness = await RouterTestingHarness.create();
   });
