@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-/** Lazy routes: each page's code is downloaded only when it is first visited (see ADR-005). */
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./features/photos/photos.page'), title: 'Photos' },
   {

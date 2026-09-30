@@ -8,16 +8,11 @@ import {
   output,
 } from '@angular/core';
 
-/** Start loading this many px before the sentinel actually reaches the viewport. */
 const PREFETCH_PX = 300;
 
-/**
- * Put on a sentinel element below a list; emits `scrolled` when more items should load
- * (hand-written, see ADR-003).
- */
+/** Put on a sentinel below a list; emits `scrolled` when more items should load. */
 @Directive({ selector: '[appInfiniteScroll]' })
 export class InfiniteScroll {
-  /** True while a load is in flight: nothing is emitted. */
   readonly paused = input(false);
   readonly scrolled = output<void>();
 

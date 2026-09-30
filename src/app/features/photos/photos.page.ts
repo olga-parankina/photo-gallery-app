@@ -13,7 +13,6 @@ import { PhotoGrid } from '../../shared/ui/photo-grid/photo-grid';
 
 const BATCH_SIZE = 12;
 
-/** Route `/`: endless random photo stream; a click adds the photo to favorites. */
 @Component({
   selector: 'app-photos-page',
   imports: [PhotoGrid, Loader, InfiniteScroll, MatButton],
@@ -55,7 +54,6 @@ export default class PhotosPage {
     this.snackBar.open('Added to favorites', undefined, { duration: 2000 });
   }
 
-  /** Lets the user change their mind right in the stream; Undo puts the photo back. */
   protected removeFromFavorites(photo: Photo): void {
     this.favorites.remove(photo.id);
     this.snackBar

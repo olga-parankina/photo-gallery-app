@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 
-/**
- * JSON over localStorage that never throws (see ADR-004).
- * Returns `unknown`: callers must validate the shape of what they read.
- */
+/** Never throws. Returns `unknown`: callers must validate the shape of what they read. */
 @Injectable({ providedIn: 'root' })
 export class LocalStorageService {
   /** Parsed value, or null if the key is missing, the JSON is corrupt or storage is unavailable. */

@@ -4,7 +4,6 @@ import { MatIcon } from '@angular/material/icon';
 import { Photo } from '../../../core/photos/photo.model';
 import { photoUrl } from '../../../core/photos/photo-url';
 
-/** Presentational photo tile: inputs in, click out. Knows nothing about stores or routes. */
 @Component({
   selector: 'app-photo-card',
   imports: [MatIcon],
@@ -18,7 +17,6 @@ export class PhotoCard {
   readonly favorite = input(false);
 
   readonly selected = output<Photo>();
-  /** Click on the favorite heart: the user changed their mind. */
   readonly unfavorite = output<Photo>();
 
   protected readonly src = computed(() => photoUrl(this.photo().id, 'thumb'));

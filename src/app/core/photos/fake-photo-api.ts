@@ -13,7 +13,6 @@ export const RANDOM = new InjectionToken<() => number>('RANDOM', {
 const MIN_DELAY_MS = 200;
 const MAX_DELAY_MS = 300;
 
-/** Emulates a real API: new random photos after a random 200–300 ms delay (see ADR-002). */
 @Injectable()
 export class FakePhotoApi extends PhotoApi {
   private readonly random = inject(RANDOM);

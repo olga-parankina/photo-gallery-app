@@ -6,7 +6,6 @@ import { FavoritesStore } from '../../core/favorites/favorites.store';
 import { Photo } from '../../core/photos/photo.model';
 import { PhotoGrid } from '../../shared/ui/photo-grid/photo-grid';
 
-/** Route `/favorites`: all favorite photos (no infinite scroll); a click opens the photo. */
 @Component({
   selector: 'app-favorites-page',
   imports: [PhotoGrid, MatButton, RouterLink],
@@ -37,7 +36,6 @@ export default class FavoritesPage {
   private readonly router = inject(Router);
   private readonly favorites = inject(FavoritesStore);
 
-  /** Derived from the store, so it updates by itself when a favorite is removed elsewhere. */
   protected readonly photos = computed<Photo[]>(() =>
     this.favorites.favorites().map((id) => ({ id })),
   );

@@ -71,24 +71,6 @@ ESLint, Prettier. No runtime dependencies beyond Angular, Material and RxJS.
 The assessment's starter repository contained an empty Angular 16 template (NgModules, Karma). It
 was replaced with a fresh Angular 22 workspace because the task asks for the latest Angular.
 
-## Decisions
-
-Each decision records context, alternatives, trade-offs and when to revisit it:
-
-1. [Photo identity and image source](docs/adr/001-photo-identity-and-image-source.md): seeded
-   picsum URLs derived from a random UUID; only ids are stored.
-2. [`PhotoApi` abstraction](docs/adr/002-photo-api-abstraction.md): a fake with a real-looking
-   delay; switching to a backend is a one-line provider change.
-3. [Hand-written infinite scroll](docs/adr/003-hand-written-infinite-scroll.md): an
-   `IntersectionObserver` sentinel plus a re-check for tall viewports.
-4. [Favorites state and persistence](docs/adr/004-favorites-state-and-persistence.md): a
-   signal store with one writer, validated `localStorage`, no state library.
-5. [Routing and the detail page](docs/adr/005-routing-and-detail-page.md): lazy routes, the
-   header highlights Favorites on the detail page, a not-found state.
-6. [Click-to-favorite UX](docs/adr/006-click-to-favorite-ux.md): real buttons named by their
-   action, presentational components.
-7. [Testing strategy](docs/adr/007-testing-strategy.md).
-
 ## Edge cases handled
 
 - Fast scrolling or concurrent triggers: only one request at a time (guard + paused sentinel).

@@ -5,7 +5,7 @@ const DIMENSIONS: Record<PhotoSize, string> = {
   full: '800/1200',
 };
 
-/** The single place that knows how a photo id maps to an image URL (see ADR-001). */
+/** The only place that maps a photo id to an image URL; only ids are stored. */
 export function photoUrl(id: string, size: PhotoSize): string {
   return `https://picsum.photos/seed/${encodeURIComponent(id)}/${DIMENSIONS[size]}`;
 }

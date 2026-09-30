@@ -5,7 +5,7 @@ import { LocalStorageService } from '../storage/local-storage.service';
 /** Versioned so a future format change can migrate or ignore old data. */
 export const FAVORITES_STORAGE_KEY = 'photo-library.favorites.v1';
 
-/** Favorite photo ids: one signal, one writer, persisted on every change (see ADR-004). */
+/** Exposed read-only, so every change goes through add/remove, which both persist. */
 @Injectable({ providedIn: 'root' })
 export class FavoritesStore {
   private readonly storage = inject(LocalStorageService);
