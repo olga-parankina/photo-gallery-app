@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'photos/:id',
     loadComponent: () => import('./features/photo-detail/photo-detail.page'),
-    title: 'Photo',
+    title: 'Favorite photo',
   },
   { path: '**', redirectTo: '' },
 ];
